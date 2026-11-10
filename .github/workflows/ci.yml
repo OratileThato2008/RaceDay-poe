@@ -1,0 +1,28 @@
+name: Build and Test RaceDay Solution
+
+on:
+  push:
+    branches: [ "main", "part3" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '10.0.x'
+
+    - name: Restore Dependencies
+      run: dotnet restore
+
+    - name: Build Solution
+      run: dotnet build --no-restore --configuration Release
+
+    - name: Execute Unit Tests
+      run: dotnet test --no-build --verbosity normal
